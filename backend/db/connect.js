@@ -6,4 +6,8 @@ const connectDB = () => {
   return mongoose.connect(process.env.MONGO_URL);
 };
 
-module.exports = connectDB;
+const disconnectDB = (done) => {
+  return mongoose.disconnect(done);
+};
+
+module.exports = { connectDB, disconnectDB };

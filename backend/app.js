@@ -15,9 +15,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-// DB
-const connectDB = require("./db/connect");
-
 //ROUTERS
 const deviceRouter = require("./routes/devices");
 
@@ -38,24 +35,13 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 // ROUTES
+app.get("/", (req, res) => {
+  res.status(200).send("Hello World!");
+});
 app.use("/devices", upload.single("image"), deviceRouter);
 
 // ERROR HANDLER
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-// START
-const port = process.env.PORT || 5001;
-
-const start = async () => {
-  try {
-    connectDB();
-    app.listen(port, () =>
-      console.log(`Server is listening on port ${port}...`)
-    );
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-start();
+module.exports = app;
